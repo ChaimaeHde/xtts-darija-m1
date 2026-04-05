@@ -1,0 +1,14 @@
+coqui-tts
+datasets
+soundfile
+librosa
+pandas
+numpy
+tqdm
+gradio
+huggingface_hub
+faster-whisper
+jiwer
+evaluate
+torch
+torchaudio

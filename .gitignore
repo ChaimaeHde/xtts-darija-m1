@@ -1,0 +1,14 @@
+# Fichiers lourds — sur HuggingFace
+*.pth
+*.bin
+*.onnx
+checkpoints/
+doda_m1_35min/
+pfa_outputs*/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.wav
+*.mp3
+/tmp/
+.env
