@@ -14,6 +14,15 @@ en utilisant le locuteur masculin M1 du dataset DODa (35 minutes, 650 samples).
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ChaimaeHde/xtts-darija-m1/blob/main/notebooks/demo_colab.ipynb)
 
+ou 
+Exécutez cette cellule sur colab:
+```bash
+!pip install -q coqui-tts gradio huggingface_hub soundfile
+!git clone https://github.com/ChaimaeHde/xtts-darija-m1.git
+%cd xtts-darija-m1
+!python app.py
+
+```
 ## 📦 Installation
 
 ```bash
