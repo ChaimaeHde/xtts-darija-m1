@@ -21,7 +21,7 @@ def setup_base_model():
     """Télécharge le modèle de base XTTS-v2 et les fichiers manquants."""
     import requests
     os.environ["COQUI_TOS_AGREED"] = "1"
-    print("⬇️ Téléchargement modèle de base...")
+    print(" Téléchargement modèle de base...")
     tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2")
     del tts; gc.collect(); torch.cuda.empty_cache()
 
@@ -34,11 +34,11 @@ def setup_base_model():
     ]:
         dest = os.path.join(MODEL_DIR, fname)
         if not os.path.exists(dest):
-            print(f"⬇️ {fname}...")
+            print(f" {fname}...")
             r = requests.get(url, stream=True)
             with open(dest, "wb") as f:
                 for chunk in r.iter_content(1024 * 1024): f.write(chunk)
-            print(f"✅ {fname}")
+            print(f" {fname}")
 
 
 def load_dataset_config():
@@ -52,7 +52,7 @@ def load_dataset_config():
         [dataset_config], eval_split=True,
         eval_split_max_size=256, eval_split_size=0.1,
     )
-    print(f"✅ Train: {len(train_samples)} | Eval: {len(eval_samples)}")
+    print(f" Train: {len(train_samples)} | Eval: {len(eval_samples)}")
     return dataset_config, train_samples, eval_samples
 
 
@@ -118,10 +118,10 @@ def finetune(restore_path=None):
         model=model, train_samples=train_samples, eval_samples=eval_samples,
     )
 
-    print(f"\n🚀 Fine-tuning démarré...")
+    print(f"\n Fine-tuning démarré...")
     try:
         trainer.fit()
-        print("✅ Fine-tuning terminé")
+        print(" Fine-tuning terminé")
     finally:
         stop_backup.set()
         runs = sorted(glob.glob(os.path.join(TRAINING_OUTPUT, "*/")))
@@ -132,7 +132,7 @@ def finetune(restore_path=None):
                 for old in glob.glob(os.path.join(DRIVE_BEST, "best_model_*.pth")): os.remove(old)
                 shutil.copy(bests[-1], DRIVE_BEST)
                 shutil.copy(os.path.join(runs[-1], "config.json"), DRIVE_BEST)
-                print(f"✅ Backup final: {os.path.basename(bests[-1])}")
+                print(f" Backup final: {os.path.basename(bests[-1])}")
 
 
 if __name__ == "__main__":
