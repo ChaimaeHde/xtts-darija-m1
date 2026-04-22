@@ -16,14 +16,14 @@ def load_model(cache_dir="/content/xtts_m1_model"):
     """Télécharge et charge le modèle depuis HuggingFace."""
     os.makedirs(cache_dir, exist_ok=True)
 
-    print("⬇️ Téléchargement du modèle depuis HuggingFace...")
+    print(" Téléchargement du modèle depuis HuggingFace...")
 
     # Télécharger les fichiers du modèle fine-tuné
     model_path  = hf_hub_download(repo_id=HF_REPO_ID, filename="model.pth",  local_dir=cache_dir)
     config_path = hf_hub_download(repo_id=HF_REPO_ID, filename="config.json", local_dir=cache_dir)
     vocab_path  = hf_hub_download(repo_id=HF_REPO_ID, filename="vocab.json",  local_dir=cache_dir)
 
-    print("✅ Fichiers téléchargés")
+    print(" Fichiers téléchargés")
 
     # Charger le modèle
     config_inf = XttsConfig()
@@ -33,7 +33,7 @@ def load_model(cache_dir="/content/xtts_m1_model"):
     model.load_checkpoint(config_inf, checkpoint_path=model_path, vocab_path=vocab_path, eval=True)
     model.cuda() if torch.cuda.is_available() else model.cpu()
 
-    print("✅ Modèle chargé")
+    print("Modèle chargé")
     return model, config_inf
 
 
@@ -44,7 +44,7 @@ def generate_speech(model, config, text, speaker_wav, output_path="output.wav", 
         speaker_wav=speaker_wav, language=language,
     )
     sf.write(output_path, outputs["wav"], 24000)
-    print(f"✅ Audio généré : {output_path}")
+    print(f" Audio généré : {output_path}")
     return output_path
 
 
