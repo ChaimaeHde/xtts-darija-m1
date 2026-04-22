@@ -20,9 +20,9 @@ def evaluate_wer_cer(audio_files, original_texts, whisper_model_size="large-v2")
     Returns:
         dict avec résultats par audio et moyennes
     """
-    print(f"⏳ Chargement Whisper {whisper_model_size}...")
+    print(f" Chargement Whisper {whisper_model_size}...")
     asr_model = WhisperModel(whisper_model_size, device="cuda", compute_type="float16")
-    print("✅ Whisper chargé")
+    print(" Whisper chargé")
 
     results = []
     for i, (audio_path, texte_original) in enumerate(zip(audio_files, original_texts)):
