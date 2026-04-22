@@ -18,10 +18,10 @@ def download_and_prepare(
 ):
     """Télécharge, prépare et convertit les données DODa pour M1."""
 
-    print(f"⏳ Chargement du dataset DODa...")
+    print(f" Chargement du dataset DODa...")
     ds = load_dataset("atlasia/DODa-audio-dataset", split="train")
     subset = ds.select(range(start_idx, end_idx))
-    print(f"✅ {len(subset)} samples sélectionnés (indices {start_idx}-{end_idx})")
+    print(f" {len(subset)} samples sélectionnés (indices {start_idx}-{end_idx})")
 
     # Créer dossiers
     wav_dir = os.path.join(output_dir, "wavs")
@@ -40,7 +40,7 @@ def download_and_prepare(
 
     # Sauvegarder metadata
     pd.DataFrame(rows).to_csv(os.path.join(output_dir, "metadata.csv"), index=False)
-    print(f"✅ {len(rows)} samples sauvegardés dans {output_dir}/")
+    print(f"{len(rows)} samples sauvegardés dans {output_dir}/")
 
     # Nettoyage texte
     df = pd.read_csv(os.path.join(output_dir, "metadata.csv"))
@@ -52,7 +52,7 @@ def download_and_prepare(
     df["text_norm"] = df["text"].apply(clean_text)
     df_clean = df.dropna(subset=["text_norm"])
     df_clean = df_clean[df_clean["text_norm"].str.len() > 3]
-    print(f"✅ {len(df_clean)} samples après nettoyage (supprimé {len(df)-len(df_clean)})")
+    print(f" {len(df_clean)} samples après nettoyage (supprimé {len(df)-len(df_clean)})")
 
     # Créer train.csv format LJSpeech
     train_csv = os.path.join(output_dir, "train.csv")
@@ -64,10 +64,10 @@ def download_and_prepare(
     df_csv = pd.read_csv(train_csv, sep="|", header=None, names=["id", "text1", "text2"])
     df_csv["id"] = df_csv["id"].str.replace("wavs/", "", regex=False).str.replace(".wav", "", regex=False)
     df_csv.to_csv(train_csv, sep="|", header=False, index=False)
-    print(f"✅ train.csv créé : {len(df_csv)} lignes")
+    print(f" train.csv créé : {len(df_csv)} lignes")
 
     # Conversion 22050 Hz
-    print("🔄 Conversion WAV à 22050 Hz...")
+    print(" Conversion WAV à 22050 Hz...")
     wavs = [f for f in os.listdir(wav_dir) if f.endswith(".wav")]
     import soundfile as sf as sf_check
     sample_info = sf_check.info(os.path.join(wav_dir, wavs[0]))
@@ -86,13 +86,13 @@ def download_and_prepare(
             else:
                 errors.append(fname)
                 if os.path.exists(tmp): os.remove(tmp)
-        print(f"✅ Conversion terminée. Erreurs: {len(errors)}")
+        print(f" Conversion terminée. Erreurs: {len(errors)}")
     else:
-        print("✅ WAV déjà à 22050 Hz")
+        print("WAV déjà à 22050 Hz")
 
     return output_dir
 
 
 if __name__ == "__main__":
     prepare_dataset = download_and_prepare()
-    print(f"\n🎉 Dataset prêt dans : {prepare_dataset}")
+    print(f"\n Dataset prêt dans : {prepare_dataset}")
